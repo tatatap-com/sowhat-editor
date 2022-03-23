@@ -1,0 +1,227 @@
+/*
+
+
+adventuretime
+ borderColor: '#292957',
+    cursorColor: '#f3c947',
+    foregroundColor: '#fae2cc',
+    backgroundColor: '#292957',
+    colors: [
+      // Normal Colors
+      '#040303', // black
+      '#cb1c17', // red
+      '#57bb1e', // green
+      '#ee8826', // yellow
+      '#0e62d1', // blue
+      '#7a6fa4', // magenta
+      '#81b3a8', // cyan
+      '#fae2cc', // white
+      // Bright Colors
+      '#6090cb', // black
+      '#ff776d', // red
+      '#abfb81', // green
+      '#f3ca20', // yellow
+      '#11a7d1', // blue
+      '#ac6e65', // magenta
+      '#d1faf6', // cyan
+      '#f8f7fc' // white */
+
+body {
+    background: #fff;
+}
+
+.CodeMirror {
+    height: auto;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    background-color: #fff; /*#f8f7fc;  #040303; */
+    /* background-color: #1f1f3f; */
+    /* color: #888866; */
+    /* color: #292957; */
+    font-family: 'Helvetica Neue',
+                 'helvetica',
+                 'Arial',
+                 'Nimbus Sans L',
+                 'Arimo',
+                 'Liberation Sans',
+                 'Liberation Sans',
+                 'TeX Gyre Heros',
+                 'FreeSans',
+                 'sans-serif',
+                 'system-ui';
+    font-family: overpass-mono;
+    color: #000;
+    padding: 6px;
+    word-break: break-word;
+    font-size: 16px;
+    line-height: 1.75;
+}
+
+
+.CodeMirror-scroll {
+    min-height: 40px;
+}
+
+.readonly .CodeMirror {
+
+}
+
+.CodeMirror-wrap pre {
+    word-break:break-word;
+}
+
+.CodeMirror-focused {
+    background-color: #fff;
+    /* border: 1px solid #aaa; */
+}
+
+.cm-s-default .cm-date,
+.date {
+    color: #ac6e65;
+    font-weight: bold;
+    position: relative;
+    /* cursor: pointer; */
+}
+
+.cm-s-default .cm-pin,
+.pin-token {
+    color: #0e62d1;
+    font-weight: bold;
+    position: relative;
+    /* cursor: pointer; */
+}
+
+.cm-s-default .cm-path,
+.path {
+    font-family: overpass-mono;
+    padding: 4px 0 2px;
+    background-color: #f3ca20;
+    color: #000;
+    font-weight: bold;
+}
+
+.cm-s-default .cm-path {
+    padding: 2px 0 2px 0;
+    font-weight: bold;
+    border-radius: 2px;
+}
+
+.cm-s-default .cm-tag,
+.tag {
+    color: #11a7d1;
+}
+
+.cm-s-default .cm-tag {
+    padding: 2px 0;
+    border-radius: 2px;
+    font-weight: bold;
+}
+
+
+.cm-s-default .cm-plus,
+.plus{
+    color: #57bb1e;
+    font-weight: bold;
+}
+
+.cm-s-default .cm-minus,
+.minus{
+    color: #ff776d;
+    font-weight: bold;
+}
+
+.cm-s-default .cm-bang,
+.bang {
+    padding: 4px 0px 2px;
+    color: #ee8826;
+    font-weight: bold;
+    border-radius: 2px;
+}
+
+.cm-s-default .cm-todo,
+.todo {
+    background: #cb1c17;
+    padding: 4px 0 2px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.cm-s-default .cm-done,
+.done {
+    background: #57bb1e;
+    padding: 4px 0 2px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.cm-s-default .cm-url,
+.url {
+    color: #6090cb;
+    font-weight: bold;
+    position: relative;
+    /* cursor: pointer; */
+}
+
+.cm-s-default .cm-formula-open,
+.cm-formula-open,
+.formula-open {
+    color: #0e62d1;
+    font-weight: bold;
+}
+
+.cm-s-default .cm-arg,
+.cm-arg,
+.arg{
+    color: #0e62d1;
+}
+
+
+.cm-s-default .cm-operator,
+.cm-operator,
+.operator {
+    color: #7a6fa4;
+    /* color: #0e62d1; */
+}
+
+
+.cm-s-default .cm-error,
+.cm-error,
+.error {
+    /* background-color: red;      /\**\/ */
+    @apply bg-red-dark;
+    color: #fff;
+    font-weight: bold;
+    position:relative;
+    padding: 2px 0;
+    
+}
+
+
+.cm-s-default .cm-error:before,
+.cm-error:before,
+.error:before {
+    content: '^ ERROR';
+    white-space: nowrap;
+    position: absolute;
+    @apply text-red-dark;
+    padding: 3px;
+    font-weight: bold;
+    z-index: 2;
+    font-size: 9px;
+    bottom: -16px;
+    left: 0px;
+}
+
+.cm-s-default .cm-lparen,
+.cm-s-default .cm-rparen,
+.cm-lparen, .cm-rparen,
+.lparen, .rparen {
+    color: #7a6fa4;
+}
+
+
+.cm-s-default .cm-formula-open {
+    padding: 2px 0;
+    border-radius: 2px;
+    font-weight: bold;
+}
