@@ -1,3 +1,4 @@
+import { EditorView } from '@codemirror/view';
 import { highlightSpecialChars, drawSelection, dropCursor, highlightActiveLine, keymap } from '@codemirror/view';
 import { history, historyKeymap } from '@codemirror/history';
 import { defaultKeymap } from '@codemirror/commands';
@@ -12,21 +13,71 @@ import { states } from './soWhatMode';
 // SO... we need to tell codemirror about all these tags
 // since they do not map to the defaults
 // @see https://discuss.codemirror.net/t/codemirror-6-stream-syntax-with-custom-tags/2578/6
-const styleTokens = [];
 Object.values(states).forEach((state) => {
   if (Array.isArray(state)) {
     state.forEach(({ token }) => {
       if (!tags[token]) {
         tags[token] = Tag.define();
-        styleTokens.push(token);
       }
     });
   }
 });
-const highlightSoWhat = HighlightStyle.define(styleTokens.map((t) => ({ tag: tags[t], class: `cm-${t}` })));
+
+const tokenish = {
+  borderRadius: '2px',
+  display: 'inline-block',
+  padding: '0px 3px 0px',
+  fontWeight: '700',
+}
 
 export const setup = [
-    highlightSoWhat,
+    EditorView.theme({
+      '.cm-editor': {
+        border: '1px solid #fff',
+        padding: '6px',
+        borderRadius: '4px',
+      },
+      '.cm-content': {
+        fontFamily: `'Overpass Mono', monospace`,
+        fontSize: '16px',
+        lineHeight: 1.75,
+        wordBreak: 'break-word',
+      },
+      '.cm-error': {
+        color: 'darkred',
+        fontWeight: '700',
+        position: 'relative',
+      },
+      '.cm-error:before': {
+        content: '^ ERROR',
+        whiteSpace: 'nowrap',
+        position: 'absolute',
+        padding: '3px',
+        fontWeight: '700',
+        zIndex: '2',
+        fontSize: '9px',
+        top: '100%',
+        left: '0px',
+      }
+    }),
+    HighlightStyle.define([
+      { tag: tags.date, color: '#ac6e65', fontWeight: '700' },
+      { tag: tags.pin, color: '#0e62d1', fontWeight: '700' },
+      { tag: tags.path, fontWeight: '700', background: '#f3ca20', ...tokenish  },
+      { tag: tags.tag, color: '#11a7d1' },
+      { tag: tags.plus, color: '#57bb1e', fontWeight: '700' },
+      { tag: tags.minus, color: '#ff776d', fontWeight: '700' },
+      { tag: tags.bang, color: '#ee8826', fontWeight: '700' },
+      { tag: tags.todo, color: '#fff', background: '#cb1c17', ...tokenish },
+      { tag: tags.done, color: '#fff', background: '#57bb1e', ...tokenish },
+      { tag: tags.url, color: '#6090cb', fontWeight: '700' },
+      { tag: tags['formula-open'], color: '#0e62d1', fontWeight: '700' },
+      { tag: tags.arg, color: '#0e62d1' },
+      { tag: tags.arg, color: '#0e62d1' },
+      { tag: tags.operator, color: '#7a6fa4' },
+      { tag: [tags.lparen, tags.rparen], color: '#7a6fa4' },
+      { tag: tags.error, class: 'cm-error' },
+    ]),
     highlightSpecialChars(),
     history(),
     drawSelection(),
