@@ -64,7 +64,7 @@ export const setup = [
       { tag: tags.date, color: '#ac6e65', fontWeight: '700' },
       { tag: tags.pin, color: '#0e62d1', fontWeight: '700' },
       { tag: tags.path, fontWeight: '700', background: '#f3ca20', ...tokenish  },
-      { tag: tags.tag, color: '#11a7d1' },
+      { tag: tags.tagname, color: '#11a7d1' },
       { tag: tags.plus, color: '#57bb1e', fontWeight: '700' },
       { tag: tags.minus, color: '#ff776d', fontWeight: '700' },
       { tag: tags.bang, color: '#ee8826', fontWeight: '700' },

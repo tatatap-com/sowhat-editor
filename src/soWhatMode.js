@@ -31,7 +31,7 @@ const states =  {
     { token: 'pin',  regex: PIN_PATTERN, next: 'pin_start'},
     { token: 'date',  regex: DATETIME_PATTERN, next: 'date_start'},
     { token: 'path',  regex: PATH_PATTERN, next: 'path'},
-    { token: 'tag', regex: TAG_PATTERN, next: 'standard' },
+    { token: 'tagname', regex: TAG_PATTERN, next: 'standard' },
     { token: 'bang', regex: BANG_PATTERN, next: 'standard' },
     { token: 'plus', regex: PLUS_PATTERN, next: 'standard' },
     { token: 'minus', regex: MINUS_PATTERN, next: 'standard' },
@@ -46,7 +46,7 @@ const states =  {
     { token: 'space', regex: WS_PATTERN},
     { token: 'date',  regex: DATETIME_PATTERN, next: 'date_start'},
     { token: 'path',  regex: PATH_PATTERN, next: 'path'},
-    { token: 'tag', regex: TAG_PATTERN, next: 'standard' },
+    { token: 'tagname', regex: TAG_PATTERN, next: 'standard' },
     { token: 'bang', regex: BANG_PATTERN, next: 'standard' },
     { token: 'plus', regex: PLUS_PATTERN, next: 'standard' },
     { token: 'minus', regex: MINUS_PATTERN, next: 'standard' },
@@ -60,7 +60,7 @@ const states =  {
   date_start: [
     { token: 'space', regex: WS_PATTERN},
     { token: 'path',  regex: PATH_PATTERN, next: 'path'},
-    { token: 'tag', regex: TAG_PATTERN, next: 'standard' },
+    { token: 'tagname', regex: TAG_PATTERN, next: 'standard' },
     { token: 'bang', regex: BANG_PATTERN, next: 'standard' },
     { token: 'plus', regex: PLUS_PATTERN, next: 'standard' },
     { token: 'minus', regex: MINUS_PATTERN, next: 'standard' },
@@ -73,7 +73,7 @@ const states =  {
 
   standard: [
     { token: 'space', regex: WS_PATTERN},
-    { token: 'tag', regex: TAG_PATTERN},
+    { token: 'tagname', regex: TAG_PATTERN},
     { token: 'bang', regex: BANG_PATTERN},
     { token: 'plus', regex: PLUS_PATTERN},
     { token: 'minus', regex: MINUS_PATTERN},
@@ -85,7 +85,7 @@ const states =  {
   path: [
     { token: 'done', regex: DONE_PATTERN, next: 'standard'  },
     { token: 'todo', regex: TODO_PATTERN, next: 'standard'  },
-    { token: 'tag', regex: TAG_PATTERN, next: 'standard'},
+    { token: 'tagname', regex: TAG_PATTERN, next: 'standard'},
     { token: 'bang', regex: BANG_PATTERN, next: 'standard'},
     { token: 'plus', regex: PLUS_PATTERN, next: 'standard'},
     { token: 'minus', regex: MINUS_PATTERN, next: 'standard'},
@@ -98,7 +98,7 @@ const states =  {
   todo: [
     { token: 'done', regex: DONE_PATTERN, next: 'standard'  },
     { token: 'todo', regex: TODO_PATTERN, next: 'standard'  },
-    { token: 'tag', regex: TAG_PATTERN, next: 'standard'},
+    { token: 'tagname', regex: TAG_PATTERN, next: 'standard'},
     { token: 'bang', regex: BANG_PATTERN, next: 'standard'},
     { token: 'plus', regex: PLUS_PATTERN, next: 'standard'},
     { token: 'minus', regex: MINUS_PATTERN, next: 'standard'},
