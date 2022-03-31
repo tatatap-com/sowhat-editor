@@ -1,11 +1,14 @@
+import { EditorState } from '@codemirror/state';
 import { EditorView, drawSelection, highlightActiveLine, keymap } from '@codemirror/view';
-import { history, historyKeymap } from '@codemirror/history';
+import { HighlightStyle, Tag, tags } from '@codemirror/highlight';
+import { autocompletion, completionKeymap } from '@codemirror/autocomplete';
 import { defaultKeymap } from '@codemirror/commands';
+import { history, historyKeymap } from '@codemirror/history';
 import { bracketMatching } from '@codemirror/matchbrackets';
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets';
-import { autocompletion, completionKeymap } from '@codemirror/autocomplete';
 import { rectangularSelection, crosshairCursor } from '@codemirror/rectangular-selection';
-import { HighlightStyle, tags, Tag } from '@codemirror/highlight';
+import { StreamLanguage } from "@codemirror/stream-parser";
+import { simpleMode } from "@codemirror/legacy-modes/mode/simple-mode";
 import { states } from './soWhatMode';
 
 // SO... we need to tell codemirror about all these tags
@@ -28,68 +31,76 @@ const tokenish = {
   fontWeight: '700',
 }
 
-export const setup = [
-    EditorView.theme({
-      '.cm-editor': {
-        border: '1px solid #fff',
-        padding: '6px',
-        borderRadius: '4px',
-      },
-      '.cm-content': {
-        fontFamily: `'Overpass Mono', monospace`,
-        fontSize: '16px',
-        lineHeight: 1.75,
-        wordBreak: 'break-word',
-      },
-      '.cm-error': {
-        color: 'darkred',
-        fontWeight: '700',
-        position: 'relative',
-      },
-      '.cm-error:before': {
-        content: '^ ERROR',
-        whiteSpace: 'nowrap',
-        position: 'absolute',
-        padding: '3px',
-        fontWeight: '700',
-        zIndex: '2',
-        fontSize: '9px',
-        top: '100%',
-        left: '0px',
-      }
-    }),
-    HighlightStyle.define([
-      { tag: tags.date, color: '#ac6e65', fontWeight: '700' },
-      { tag: tags.pin, color: '#0e62d1', fontWeight: '700' },
-      { tag: tags.path, fontWeight: '700', background: '#f3ca20', ...tokenish  },
-      { tag: tags.tagname, color: '#11a7d1' },
-      { tag: tags.plus, color: '#57bb1e', fontWeight: '700' },
-      { tag: tags.minus, color: '#ff776d', fontWeight: '700' },
-      { tag: tags.bang, color: '#ee8826', fontWeight: '700' },
-      { tag: tags.todo, color: '#fff', background: '#cb1c17', ...tokenish },
-      { tag: tags.done, color: '#fff', background: '#57bb1e', ...tokenish },
-      { tag: tags.url, color: '#6090cb', fontWeight: '700' },
-      { tag: tags['formula-open'], color: '#0e62d1', fontWeight: '700' },
-      { tag: tags.arg, color: '#0e62d1' },
-      { tag: tags.arg, color: '#0e62d1' },
-      { tag: tags.operator, color: '#7a6fa4' },
-      { tag: [tags.lparen, tags.rparen], color: '#7a6fa4' },
-      { tag: tags.error, class: 'cm-error' },
-    ]),
-    history(),
-    drawSelection(),
-    bracketMatching(),
-    closeBrackets(),
-    autocompletion(),
-    rectangularSelection(),
-    crosshairCursor(),
-    highlightActiveLine(),
-    keymap.of([
-        ...closeBracketsKeymap,
-        ...defaultKeymap,
-        ...historyKeymap,
-        ...completionKeymap
-    ]),
+const extensions = [
+  EditorView.theme({
+    '.cm-editor': {
+      border: '1px solid #fff',
+      padding: '6px',
+      borderRadius: '4px',
+    },
+    '.cm-content': {
+      fontFamily: `'Overpass Mono', monospace`,
+      fontSize: '16px',
+      lineHeight: 1.75,
+      wordBreak: 'break-word',
+    },
+    '.cm-error': {
+      color: 'darkred',
+      fontWeight: '700',
+      position: 'relative',
+    },
+    '.cm-error:before': {
+      content: '^ ERROR',
+      whiteSpace: 'nowrap',
+      position: 'absolute',
+      padding: '3px',
+      fontWeight: '700',
+      zIndex: '2',
+      fontSize: '9px',
+      top: '100%',
+      left: '0px',
+    }
+  }),
+  HighlightStyle.define([
+    { tag: tags.date, color: '#ac6e65', fontWeight: '700' },
+    { tag: tags.pin, color: '#0e62d1', fontWeight: '700' },
+    { tag: tags.path, fontWeight: '700', background: '#f3ca20', ...tokenish  },
+    { tag: tags.tagname, color: '#11a7d1' },
+    { tag: tags.plus, color: '#57bb1e', fontWeight: '700' },
+    { tag: tags.minus, color: '#ff776d', fontWeight: '700' },
+    { tag: tags.bang, color: '#ee8826', fontWeight: '700' },
+    { tag: tags.todo, color: '#fff', background: '#cb1c17', ...tokenish },
+    { tag: tags.done, color: '#fff', background: '#57bb1e', ...tokenish },
+    { tag: tags.url, color: '#6090cb', fontWeight: '700' },
+    { tag: tags['formula-open'], color: '#0e62d1', fontWeight: '700' },
+    { tag: tags.arg, color: '#0e62d1' },
+    { tag: tags.arg, color: '#0e62d1' },
+    { tag: tags.operator, color: '#7a6fa4' },
+    { tag: [tags.lparen, tags.rparen], color: '#7a6fa4' },
+    { tag: tags.error, class: 'cm-error' },
+  ]),
+  history(),
+  drawSelection(),
+  bracketMatching(),
+  closeBrackets(),
+  autocompletion(),
+  rectangularSelection(),
+  crosshairCursor(),
+  highlightActiveLine(),
+  keymap.of([
+      ...closeBracketsKeymap,
+      ...defaultKeymap,
+      ...historyKeymap,
+      ...completionKeymap
+  ]),
+  StreamLanguage.define(simpleMode(states)),
 ];
 
-
+export default ({ root }) => {
+  let view = new EditorView({
+    parent: root,
+    state: EditorState.create({
+      extensions,
+    }),
+  });
+}
