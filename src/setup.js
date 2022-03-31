@@ -1,10 +1,8 @@
-import { EditorView } from '@codemirror/view';
-import { highlightSpecialChars, drawSelection, dropCursor, highlightActiveLine, keymap } from '@codemirror/view';
+import { EditorView, drawSelection, highlightActiveLine, keymap } from '@codemirror/view';
 import { history, historyKeymap } from '@codemirror/history';
 import { defaultKeymap } from '@codemirror/commands';
 import { bracketMatching } from '@codemirror/matchbrackets';
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets';
-import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
 import { autocompletion, completionKeymap } from '@codemirror/autocomplete';
 import { rectangularSelection, crosshairCursor } from '@codemirror/rectangular-selection';
 import { HighlightStyle, tags, Tag } from '@codemirror/highlight';
@@ -78,21 +76,17 @@ export const setup = [
       { tag: [tags.lparen, tags.rparen], color: '#7a6fa4' },
       { tag: tags.error, class: 'cm-error' },
     ]),
-    highlightSpecialChars(),
     history(),
     drawSelection(),
-    dropCursor(),
     bracketMatching(),
     closeBrackets(),
     autocompletion(),
     rectangularSelection(),
     crosshairCursor(),
     highlightActiveLine(),
-    highlightSelectionMatches(),
     keymap.of([
         ...closeBracketsKeymap,
         ...defaultKeymap,
-        ...searchKeymap,
         ...historyKeymap,
         ...completionKeymap
     ]),
