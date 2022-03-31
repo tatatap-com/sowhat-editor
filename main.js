@@ -1,5 +1,4 @@
-import './style.css';
-import setup from "./src/setup";
+import createTapEditor from "./src/createTapEditor";
 
 const folders = [
   {
@@ -51,17 +50,10 @@ const beans = [
   }
 ];
 
-setup({
+createTapEditor({
   root: document.getElementById('app'),
   beans,
   events,
   folders,
   tagnames,
-  // beans: [
-  //   'money',
-  // ],
-  // events: [
-  //   'takeout',
-  //   'exersize',
-  // ]
 });

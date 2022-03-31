@@ -11,8 +11,16 @@
     "vite": "^2.9.0"
   },
   "dependencies": {
-    "@codemirror/basic-setup": "^0.19.3",
+    "@codemirror/autocomplete": "^0.19.15",
+    "@codemirror/closebrackets": "^0.19.1",
+    "@codemirror/commands": "^0.19.8",
+    "@codemirror/highlight": "^0.19.8",
+    "@codemirror/history": "^0.19.2",
+    "@codemirror/language": "^0.19.10",
     "@codemirror/legacy-modes": "^0.19.1",
-    "@codemirror/stream-parser": "^0.19.9"
+    "@codemirror/matchbrackets": "^0.19.4",
+    "@codemirror/state": "^0.19.9",
+    "@codemirror/stream-parser": "^0.19.9",
+    "@codemirror/view": "^0.19.48"
   }
 }
