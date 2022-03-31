@@ -7,7 +7,7 @@ import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets';
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
 import { autocompletion, completionKeymap } from '@codemirror/autocomplete';
 import { rectangularSelection, crosshairCursor } from '@codemirror/rectangular-selection';
-import { defaultHighlightStyle, HighlightStyle, tags, Tag } from '@codemirror/highlight';
+import { HighlightStyle, tags, Tag } from '@codemirror/highlight';
 import { states } from './soWhatMode';
 
 // SO... we need to tell codemirror about all these tags
