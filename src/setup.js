@@ -6,11 +6,10 @@ import { defaultKeymap } from '@codemirror/commands';
 import { history, historyKeymap } from '@codemirror/history';
 import { bracketMatching } from '@codemirror/matchbrackets';
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets';
-import { rectangularSelection, crosshairCursor } from '@codemirror/rectangular-selection';
-import { syntaxTree } from "@codemirror/language"
+import { syntaxTree } from "@codemirror/language";
 import { StreamLanguage } from "@codemirror/stream-parser";
 import { simpleMode } from "@codemirror/legacy-modes/mode/simple-mode";
-import { states } from './soWhatMode';
+import { states, PATH_PATTERN, TAG_PATTERN, BANG_PATTERN, MINUS_PATTERN, PLUS_PATTERN } from './soWhatMode';
 
 // SO... we need to tell codemirror about all these tags
 // since they do not map to the defaults
@@ -25,25 +24,38 @@ Object.values(states).forEach((state) => {
   }
 });
 
-export default ({ root, folders, tagnames }) => {
+export default ({ initialValue, root, folders, tagnames, events, beans }) => {
+  if (folders) {
+    const folderPrompts = [];
+    function addFolders(f, parent = '') {
+      const label = `${parent}/${f.value}`;
+      folderPrompts.push({ label });
+      if (f.children) f.children.forEach(f => addFolders(f, label))
+    }
+    folders.forEach(f => addFolders(f));
+    folders = folderPrompts;
+  }
 
-  // create proper completion options
-  if (folders) folders = folders.map(label => ({ label }));
-  if (tagnames) tagnames = tagnames.map(label => ({ label }));
+  if (events) events = events.map(({ value }) => ({ label: `!${value}` }));
+  if (tagnames) tagnames = tagnames.map(({ value }) => ({ label: `#${value}` }));
+
+
+  let minus;
+  let plus;
+  if (beans) {
+    minus = beans.map(({ value }) => ({ label: `-${value}` }));
+    plus = beans.map(({ value }) => ({ label: `+${value}` }));
+  }
+
 
   function myCompletions(context) {  
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1);
-  
-    // TODO: should we start autocomplete before a letter
-    // if (nodeBefore.name === 'word' && context.matchBefore(/^\//)) {
-    //   console.log('maybe a folder...');
-    // }
   
     if (folders && nodeBefore.name === 'path') {
       return {
         from: nodeBefore.from,
         to: nodeBefore.to,
-        span: /^\S*/,
+        span: PATH_PATTERN,
         options: folders,
       }
     }
@@ -52,8 +64,35 @@ export default ({ root, folders, tagnames }) => {
       return {
         from: nodeBefore.from,
         to: nodeBefore.to,
-        span: /^\S*/,
+        span: TAG_PATTERN,
         options: tagnames,
+      }
+    }
+
+    if (events && nodeBefore.name === 'bang') {
+      return {
+        from: nodeBefore.from,
+        to: nodeBefore.to,
+        span: BANG_PATTERN,
+        options: events,
+      }
+    }
+
+    if (minus && nodeBefore.name === 'minus') {
+      return {
+        from: nodeBefore.from,
+        to: nodeBefore.to,
+        span: MINUS_PATTERN,
+        options: minus,
+      }
+    }
+
+    if (plus && nodeBefore.name === 'plus') {
+      return {
+        from: nodeBefore.from,
+        to: nodeBefore.to,
+        span: PLUS_PATTERN,
+        options: plus,
       }
     }
   
@@ -67,16 +106,12 @@ export default ({ root, folders, tagnames }) => {
     fontWeight: '700',
   }  
 
-  let view = new EditorView({
+  return new EditorView({
     parent: root,
     state: EditorState.create({
+      doc: initialValue,
       extensions: [
         EditorView.theme({
-          '.cm-editor': {
-            border: '1px solid #fff',
-            padding: '6px',
-            borderRadius: '4px',
-          },
           '.cm-content': {
             fontFamily: `'Overpass Mono', monospace`,
             fontSize: '16px',
@@ -88,13 +123,13 @@ export default ({ root, folders, tagnames }) => {
             fontWeight: '700',
             position: 'relative',
           },
-          '.cm-error:before': {
-            content: '^ ERROR',
+          '.cm-error:after': {
+            content: '"^ ERROR"',
             whiteSpace: 'nowrap',
             position: 'absolute',
             padding: '3px',
             fontWeight: '700',
-            zIndex: '2',
+            zIndex: '10',
             fontSize: '9px',
             top: '100%',
             left: '0px',
@@ -116,15 +151,13 @@ export default ({ root, folders, tagnames }) => {
           { tag: tags.arg, color: '#0e62d1' },
           { tag: tags.operator, color: '#7a6fa4' },
           { tag: [tags.lparen, tags.rparen], color: '#7a6fa4' },
-          { tag: tags.error, class: 'cm-error' },
+          { tag: tags.syntaxerror, class: 'cm-error' },
         ]),
         history(),
         drawSelection(),
         bracketMatching(),
         closeBrackets(),
         autocompletion({ override: [myCompletions] }),
-        rectangularSelection(),
-        crosshairCursor(),
         highlightActiveLine(),
         keymap.of([
             ...closeBracketsKeymap,
