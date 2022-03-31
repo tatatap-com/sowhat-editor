@@ -11,7 +11,10 @@ const PATH_PATTERN = new RegExp('((?:(?:/"(?:[^"\\n]|\.)*?")|(?:/(?:[\u1000-\uff
 const TODO_PATTERN = /[Tt][Oo][Dd][Oo]/;
 const DONE_PATTERN = /[Dd][Oo][Nn][Ee]/;
 
-const TAG_PATTERN = /#(?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))/;
+// const TAG_PATTERN = /#(?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))/;
+// NOTE FROM GREG: if we allow the first char by itself to look like a tag the autocomplete just works
+// do we want this... or do we want to handle opening the autocomplete before we know if there is a tag token...? 
+const TAG_PATTERN = /#(?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))?/;
 
 const BANG_PATTERN = /!(?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))/;
 
