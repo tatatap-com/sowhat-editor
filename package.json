@@ -9,5 +9,10 @@
   },
   "devDependencies": {
     "vite": "^2.9.0"
+  },
+  "dependencies": {
+    "@codemirror/basic-setup": "^0.19.3",
+    "@codemirror/legacy-modes": "^0.19.1",
+    "@codemirror/stream-parser": "^0.19.9"
   }
 }
