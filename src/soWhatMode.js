@@ -160,9 +160,6 @@ const states =  {
     { token: 'operator', regex: OPERATOR_PATTERN, next: 'func' },
     { token: 'error', regex: SYMBOL_PATTERN, next: 'standard' },
   ],
-  meta: {
-
-  }
 }
 
 export {states};
