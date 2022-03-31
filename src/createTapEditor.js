@@ -1,5 +1,5 @@
 import { EditorState } from '@codemirror/state';
-import { EditorView, ViewPlugin, drawSelection, highlightActiveLine, keymap } from '@codemirror/view';
+import { EditorView, ViewPlugin, drawSelection, keymap } from '@codemirror/view';
 import { HighlightStyle, Tag, tags } from '@codemirror/highlight';
 import { autocompletion, completionKeymap } from '@codemirror/autocomplete';
 import { defaultKeymap } from '@codemirror/commands';
@@ -102,7 +102,7 @@ export default ({ initialValue, root, folders, tagnames, events, beans }) => {
   const tokenish = {
     borderRadius: '2px',
     display: 'inline-block',
-    padding: '0px 3px 0px',
+    padding: '0 3px 0',
     fontWeight: '700',
   }  
 
@@ -111,29 +111,38 @@ export default ({ initialValue, root, folders, tagnames, events, beans }) => {
     state: EditorState.create({
       doc: initialValue,
       extensions: [
+        EditorView.lineWrapping,
         EditorView.theme({
-          '.cm-content': {
+          '&.cm-editor': {
+            padding: '6px',
+            borderRadius: '4px',
+            outline: '1px solid #ccc',
             fontFamily: `'Overpass Mono', monospace`,
             fontSize: '16px',
-            lineHeight: 1.75,
             wordBreak: 'break-word',
           },
-          '.cm-error': {
-            color: 'darkred',
-            fontWeight: '700',
-            position: 'relative',
+          '.cm-selectionBackground': {
+            background: 'rgba(0, 200, 0, 0.3) !important',
           },
-          '.cm-error:after': {
-            content: '"^ ERROR"',
-            whiteSpace: 'nowrap',
-            position: 'absolute',
-            padding: '3px',
-            fontWeight: '700',
-            zIndex: '10',
-            fontSize: '9px',
-            top: '100%',
-            left: '0px',
-          }
+          '.cm-completionIcon': {
+            display: 'none',
+          },
+          '.cm-tooltip': {
+            background: '#fff',
+            border: '1px solid #ddd',
+            boxShadow: '3px 2px 18px -5px rgba(0,0,0,0.1)'
+          },
+          '.cm-tooltip.cm-tooltip-autocomplete > ul > li': {
+            padding: '4px 6px',
+            color: 'rgba(0, 0, 0, 0.4)',
+          },
+          '.cm-tooltip.cm-tooltip-autocomplete > ul > li[aria-selected]': {
+            background: 'rgba(0, 200, 0, 0.4)',
+          },
+          '.cm-completionMatchedText': {
+            color: 'rgba(0, 0, 0, 1)',
+            textDecoration: 'none',
+          },
         }),
         HighlightStyle.define([
           { tag: tags.date, color: '#ac6e65', fontWeight: '700' },
@@ -151,14 +160,13 @@ export default ({ initialValue, root, folders, tagnames, events, beans }) => {
           { tag: tags.arg, color: '#0e62d1' },
           { tag: tags.operator, color: '#7a6fa4' },
           { tag: [tags.lparen, tags.rparen], color: '#7a6fa4' },
-          { tag: tags.syntaxerror, class: 'cm-error' },
+          { tag: tags.syntaxerror, color: 'red', textDecoration: 'red wavy underline' },
         ]),
         history(),
         drawSelection(),
         bracketMatching(),
         closeBrackets(),
         autocompletion({ override: [myCompletions] }),
-        highlightActiveLine(),
         keymap.of([
             ...closeBracketsKeymap,
             ...defaultKeymap,
