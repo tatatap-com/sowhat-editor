@@ -8,11 +8,11 @@ import createTapEditor, { suggest } from "./lib/index";
 ////////////////////////
 
 const examples = [
-  '/bar something in another folder',
-  '/foo something in a folder',
+  '!takeout Chick-fil-a -food:10.95',
   '/budget +income:200',
   '/budget -income:100',
-]
+  'http://skiano.com #art #inspiration'
+];
 
 ///////////////
 // UTILITIES //
@@ -94,8 +94,7 @@ const updatePreview = () => {
   const beansMap = {};
   const tagsMap = {};
 
-  STATE.notes.forEach(({ parsed }, i) => {
-    // update folder structure...
+  STATE.notes.forEach(({ parsed }) => {
     let c = folderMap;
     parsed.folder.forEach((f) => {
       const fname = f.value.substring(1);
@@ -106,13 +105,20 @@ const updatePreview = () => {
     c.notes.push(parsed.text);
 
     parsed.event.forEach(({ value }) => {
-      eventsMap[value.label] = eventsMap[value.label] || 0;
-      eventsMap[value.label] += 1;
+      eventsMap[value.label] = eventsMap[value.label] || { total: 0, notes: [] };
+      eventsMap[value.label].total += 1;
+      eventsMap[value.label].notes.push(parsed.text);
     });
 
     parsed.bean.forEach(({ value }) => {
-      beansMap[value.symbol] = beansMap[value.symbol] || 0;
-      beansMap[value.symbol] += parseFloat(value.value) * (value.sign === '+' ? 1 : -1);
+      beansMap[value.symbol] = beansMap[value.symbol] || { total: 0, notes: [] };
+      beansMap[value.symbol].total += parseFloat(value.value) * (value.sign === '+' ? 1 : -1);
+      beansMap[value.symbol].notes.push(parsed.text);
+    });
+
+    parsed.tag.forEach(({ value }) => {
+      tagsMap[value] = tagsMap[value] || [];
+      tagsMap[value].push(parsed.text);
     });
   });
 
@@ -128,14 +134,31 @@ const updatePreview = () => {
     ]);
   };
 
+  const renderTags = (tmap) => {
+    return create('div', {}, Object.entries(tmap).map(([tag, notes]) => {
+      return create('details', { open: false }, [
+        create('summary', {}, `${tag} (${notes.length})`),
+        create('div', { class: 'folder-content' }, [
+          create('ul', { class: 'folder-note-list' }, notes.map((n) => {
+            return create('li', { class: 'folder-note' }, n)
+          })),
+        ])
+      ]);
+    }))
+  };
+
   const renderTotals = (totalMap) => {
-    return create('ul', {},
+    return create('div', {},
       Object.entries(totalMap)
         .sort((a, b) => a[0] - b[0])
-        .map(([sym, total]) => {
-          return create('li', {}, [
-            create('strong', {}, `${sym}: `),
-            create('span', [], `${total}`),
+        .map(([sym, { total, notes }]) => {
+          return create('details', { open: false }, [
+            create('summary', {}, `${sym} ${total}`),
+            create('div', { class: 'folder-content' }, [
+              create('ul', { class: 'folder-note-list' }, notes.map((n) => {
+                return create('li', { class: 'folder-note' }, n)
+              })),
+            ])
           ]);
       })
     );
@@ -151,6 +174,10 @@ const updatePreview = () => {
       renderTotals(eventsMap),
     ]),
     create('div', { class: 'preview-section' }, [
+      create('h3', { class: 'preview-section-title' }, 'Tags'),
+      renderTags(tagsMap),
+    ]),
+    create('div', { class: 'preview-section' }, [
       create('h3', { class: 'preview-section-title' }, 'Folders'),
       renderFolderMap(folderMap),
     ]),
@@ -163,14 +190,13 @@ const addNote = (initialValue) => {
   const note = {};
 
   const editor = create('div', { class: 'ex-editor' })
-  const output = create('p', { class: 'ex-output' });
 
   const editorView = createTapEditor({
     root: editor,
     initialValue,
     onChange: (v) => {
       note.parsed =  sowhat.parse(v);
-      output.innerText = JSON.stringify(note.parsed, null, 2);
+      console.log(note.parsed);
       updatePreview();
     },
     onFocus: () => {
@@ -180,10 +206,6 @@ const addNote = (initialValue) => {
 
   note.root = create('div', { class: 'ex-wrap'}, [
     editor,
-    create('details', { class: 'ex-details' }, [
-      create('summary', {}, 'Parser output'),
-      output,
-    ]),
     create('button', {
       class: 'ex-delete',
       onclick: () => {
@@ -214,7 +236,7 @@ notesRoot.appendChild(create('div', {}, [
 ]));
 
 previewRoot.appendChild(create('div', {}, [
-  create('h2', { class: 'panel-title' }, 'Preview' ),
+  create('h2', { class: 'panel-title' }, 'Current State' ),
   create('div', { class: 'example-panel-content' }, previewContent)
 ]));
 

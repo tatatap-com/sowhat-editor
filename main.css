@@ -28,7 +28,7 @@ strong {
   background: #0000ff;
   color: #fff;
   font-weight: bold;
-  padding: 10px 14px;
+  padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -41,32 +41,12 @@ strong {
 }
 
 .example-panel-content {
-  margin: 20px 18px;
+  margin: 20px;
 }
 
 .ex-wrap {
-  margin: 14px 0;
+  margin: 14px 0 24px;
   position: relative;
-}
-
-.ex-details {
-  font-size: 12px;
-  margin-top: 6px;
-  color: #0000ff;
-}
-
-.ex-output {
-  margin-top: 6px;
-  font-family: 'Overpass Mono', monospace;
-  font-size: 12px;
-  line-height: 15px;
-  background: #dedef5;
-  padding: 10px 16px;
-  white-space: pre-wrap;
-  max-height: 250px;
-  overflow-y: scroll;
-  border-radius: 3px;
-  outline: 1px solid #ccc;
 }
 
 .ex-add-note {
@@ -111,8 +91,8 @@ strong {
 }
 
 .ex-preview-content {
-  font-size: 12px;
-  line-height: 19px;
+  font-size: 13px;
+  line-height: 20px;
   -webkit-font-smoothing: 'subpixel-antialiased';
   color: rgb(199, 216, 237);
   letter-spacing: 0.02em;
@@ -126,6 +106,7 @@ strong {
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 7px;
+  color: #f3ca20;
 }
 
 .folder-content {
@@ -134,7 +115,7 @@ strong {
 }
 
 .folder-note-list {
-  margin: 12px 0;
+  margin: 8px 0;
 }
 
 .folder-note::before {
