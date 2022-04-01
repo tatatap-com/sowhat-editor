@@ -12,7 +12,7 @@ import { EditorView, ViewPlugin, drawSelection, keymap } from '@codemirror/view'
 
 import {
   states,
-  AUTO_COMPLETE_PATH_PATTERN,
+  PATH_PATTERN,
   AUTO_COMPLETE_BANG_PATTERN,
   AUTO_COMPLETE_TAG_PATTERN,
   AUTO_COMPLETE_PLUS_PATTERN,
@@ -43,30 +43,29 @@ export default ({ initialValue, root, folders, tagnames, events, beans }) => {
       if (f.children) f.children.forEach(f => addFolders(f, label))
     }
     folders.forEach(f => addFolders(f));
-    folders = folderPrompts;
-    completions.push(['path', /^\//, AUTO_COMPLETE_PATH_PATTERN, folderPrompts]);
+    completions.push(['path', PATH_PATTERN, folderPrompts]);
   }
 
   if (events) {
-    completions.push(['bang', /\W\!|^\!/, AUTO_COMPLETE_BANG_PATTERN, events.map(i => ({ label: `!${i.value}` }))]);
+    completions.push(['bang', AUTO_COMPLETE_BANG_PATTERN, events.map(i => ({ label: `!${i.value}` }))]);
   }
 
   if (tagnames) {
-    completions.push(['tagname', /\W\#|^\#/, AUTO_COMPLETE_TAG_PATTERN, tagnames.map(i => ({ label: `#${i.value}` }))]);
+    completions.push(['tagname', AUTO_COMPLETE_TAG_PATTERN, tagnames.map(i => ({ label: `#${i.value}` }))]);
   }
 
   if (beans) {
-    completions.push(['plus', /\W\+|^\+/, AUTO_COMPLETE_PLUS_PATTERN, beans.map(i => ({ label: `+${i.value}` }))]);
-    completions.push(['minus', /\W\-|^\-/, AUTO_COMPLETE_MINUS_PATTERN, beans.map(i => ({ label: `-${i.value}` }))]);
+    completions.push(['plus', AUTO_COMPLETE_PLUS_PATTERN, beans.map(i => ({ label: `+${i.value}` }))]);
+    completions.push(['minus', AUTO_COMPLETE_MINUS_PATTERN, beans.map(i => ({ label: `-${i.value}` }))]);
   }
 
   function suggestTokens(context) {  
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1);
 
     for (let i = 0; i < completions.length; i++) {
-      const [targetNode, maybePattern, matchPattern, options] = completions[i];
+      const [targetNode, matchPattern, options] = completions[i];
       if (
-        (nodeBefore.name === 'word' && context.matchBefore(maybePattern)) ||
+        (targetNode !== 'path' && nodeBefore.name === 'word' && context.matchBefore(matchPattern)) ||
         (nodeBefore.name === targetNode)
       ) {
         const word = context.matchBefore(matchPattern);
