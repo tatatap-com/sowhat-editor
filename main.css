@@ -5,6 +5,10 @@ html {
   background: #eee;
 }
 
+strong {
+  font-weight: bold;
+}
+
 #app {
   display: flex;
   min-height: 100vh;

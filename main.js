@@ -104,10 +104,14 @@ const updatePreview = () => {
       c = c.children[fname];
     });
     c.notes.push(parsed.text);
-    // parsed.event.forEach(e => { events.push(e.value); });
+
+    parsed.event.forEach(({ value }) => {
+      eventsMap[value.label] = eventsMap[value.label] || 0;
+      eventsMap[value.label] += 1;
+    });
+
     parsed.bean.forEach(({ value }) => {
       beansMap[value.symbol] = beansMap[value.symbol] || 0;
-      console.log();
       beansMap[value.symbol] += parseFloat(value.value) * (value.sign === '+' ? 1 : -1);
     });
   });
@@ -124,15 +128,14 @@ const updatePreview = () => {
     ]);
   };
 
-  const renderBeans = () => {
+  const renderTotals = (totalMap) => {
     return create('ul', {},
-      Object.entries(beansMap)
+      Object.entries(totalMap)
         .sort((a, b) => a[0] - b[0])
         .map(([sym, total]) => {
-          console.log(sym, total)
           return create('li', {}, [
-            create('strong', {}, sym),
-            create('span', [], ` ${total}`),
+            create('strong', {}, `${sym}: `),
+            create('span', [], `${total}`),
           ]);
       })
     );
@@ -141,12 +144,16 @@ const updatePreview = () => {
   previewContent.appendChild(create('div', { class: 'ex-dynamic-content' }, [
     create('div', { class: 'preview-section' }, [
       create('h3', { class: 'preview-section-title' }, 'Beans'),
-      renderBeans(),
+      renderTotals(beansMap),
+    ]),
+    create('div', { class: 'preview-section' }, [
+      create('h3', { class: 'preview-section-title' }, 'Events'),
+      renderTotals(eventsMap),
     ]),
     create('div', { class: 'preview-section' }, [
       create('h3', { class: 'preview-section-title' }, 'Folders'),
       renderFolderMap(folderMap),
-    ])
+    ]),
   ]));
 };
 
