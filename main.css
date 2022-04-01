@@ -25,17 +25,28 @@ html {
   color: #fff;
   font-weight: bold;
   padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 45px;
+}
+
+#preview.panel .panel-title {
+  background: #f3ca20;
+  color: #000004;
 }
 
 .example-panel-content {
-  margin: 14px;
+  margin: 20px 18px;
 }
 
 .ex-wrap {
   margin: 14px 0;
+  position: relative;
 }
 
 .ex-details {
+  font-size: 12px;
   margin-top: 6px;
   color: #0000ff;
 }
@@ -44,6 +55,7 @@ html {
   margin-top: 6px;
   font-family: 'Overpass Mono', monospace;
   font-size: 12px;
+  line-height: 15px;
   background: #dedef5;
   padding: 10px 16px;
   white-space: pre-wrap;
@@ -62,8 +74,65 @@ html {
   line-height: 38px;
   border-radius: 4px;
   padding: 0 12px;
-  background: #0000ff;
+  background: #000004;
   color: #fff;
   font-weight: bold;
-  margin-top: 10px;
+}
+
+.ex-add-note:focus {
+  outline: 2px solid #3070d8;
+}
+
+.ex-delete {
+  -webkit-appearance: none;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  background: #ff776d;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+}
+
+.ex-preview-content {
+  font-size: 12px;
+  line-height: 19px;
+  -webkit-font-smoothing: 'subpixel-antialiased';
+  color: rgb(199, 216, 237);
+  letter-spacing: 0.02em;
+}
+
+.preview-section {
+  margin: 14px;
+}
+
+.preview-section-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+.folder-content {
+  padding-left: 12px;
+  border-left: 1px dotted rgb(119, 114, 166);
+}
+
+.folder-note-list {
+  margin: 12px 0;
+}
+
+.folder-note::before {
+  content: '◘ ';
 }
