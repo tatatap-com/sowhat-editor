@@ -1,11 +1,11 @@
-# Sowhat editor
+# Sowhat Editor
 
 ```bash
 $ npm run dev # develop the library
 $ npm run build # builds the demo page and a UMD bundle that should be useable in the browser
 ```
 
-# usage
+## Usage
 
 ```javascript
 import { createEditor, suggest } from '@tatatap-com/sowhat-editor';
