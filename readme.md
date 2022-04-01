@@ -1,77 +1,50 @@
-# Codemirror6 editor setup
+# Sowhat editor
 
-https://codemirror.net/6/
-
-## Things needed 
-
-find the codemirror base styles
-
-
-here:?
-
-`import 'codemirror/lib/codemirror.css';`
-
-given a list like 
-
-```const tags = [{
-name: 'Foo Bar'
-value: '"Foo Bar"'
-}]
-
+```bash
+$ npm run dev # develop the library
+$ npm run build # builds the demo page and a UMD bundle that should be useable in the browser
 ```
 
-when a person types into the editor
+# usage
 
-`hello this is a #`
+```javascript
+import { createEditor, suggest } from '@tatatap-com/sowhat-editor';
 
-The typing of the '#' character should open a flyout menu that allows the person to select from one of the pre-defined tags in the tags array.
+// You can set the folders for autocompletion like so...
 
-There will be separate lists with the same format for: folders, beans and events.
+suggest('folder', [
+  {
+    value: 'foo',
+    children: [
+      { value: 'bar' }
+    ]
+  }
+]);
 
-Folders function different than the other types. they will have an possible third property `children`
+suggest('bean', [
+  { value: 'income' },
+  { value: 'expense' },
+]);
 
-ie
+suggest('event', [
+  { value: 'takeout' },
+  { value: 'headache' },
+]);
 
-```
-const folders = [{
-name: 'Baz Qux',
-value: '"Baz Qux"',
-children: [{
-name: 'more here'
-value: '"more here"'
-}]
-}]
-```
+suggest('tag', [
+  { value: 'inspiration' },
+  { value: '"want it"' },
+]);
 
-### A note on 'value' and 'name'
+// You can create an editor in a dom element like so...
 
-"name" is the display name of the token, "value" is the actual name of the token. Any token with spaces in the name needs quotes surrounding it in the "value".
-
-It is possible for a name and value to be the same ie
-
-```
-{name: 'foo', value: 'foo'}
-```
-
-There is no whitespace or capitalization so a quoteless value is OK
-
-
-integrating the legacy mode
-https://github.com/codemirror/legacy-modes
-
-```
-import {StreamLanguage} from "@codemirror/stream-parser"
-import {simpleMode} from "@codemirror/legacy-modes/mode/simple-mode"
-
-import {EditorView, EditorState, basicSetup} from "@codemirror/basic-setup"
-
-import {states} from './soWhatMode'
-
-const sowhatmode = simpleMode(states)
-
-let view = new EditorView({
-  state: EditorState.create({
-    extensions: [basicSetup, StreamLanguage.define(sowhatmode)]
-  })
-})
+createEditor({
+  root: document.getElementById('fancy-editor'),
+  initialValue: 'An initial note!',
+  onChange: (txt) => { // this also fires immediately...
+    console.log(txt);
+  },
+  onFocus: () => {},
+  onBlur: () => {},
+});
 ```

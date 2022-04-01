@@ -1,14 +1,19 @@
 {
   "name": "@tatatap-com/sowhat-editor",
+  "type": "module",
+  "main": "lib/index.js",
   "private": true,
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build:umd": "vite build",
+    "build:demo": "vite build --mode development",
+    "build": "npm run build:demo && npm run build:umd",
     "preview": "vite preview"
   },
   "devDependencies": {
     "@tatatap-com/sowhat": "^1.4.1",
+    "rollup": "^2.70.1",
     "vite": "^2.9.0"
   },
   "dependencies": {

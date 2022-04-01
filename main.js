@@ -1,7 +1,7 @@
 import './reset.css';
 import './main.css';
 import sowhat from '@tatatap-com/sowhat';
-import createTapEditor, { suggest } from "./lib/index";
+import { createEditor, suggest } from "./lib/index";
 
 ////////////////////////
 // CONFIGURE EXAMPLES //
@@ -191,7 +191,7 @@ const addNote = (initialValue) => {
 
   const editor = create('div', { class: 'ex-editor' })
 
-  const editorView = createTapEditor({
+  const editorView = createEditor({
     root: editor,
     initialValue,
     onChange: (v) => {
