@@ -1,17 +1,27 @@
-export const WS_PATTERN = /\s+/m;
-export const SYMBOL_PATTERN = /\S+/;
-export const OPERATOR_PATTERN = /\+|\-|\*|\/|%|sum|min|max|round|floor|ceil|pow|cos|sin|tan|[Bb][Ee][Aa][Nn][\+\-]?|\$/;
-export const ARG_PATTERN = /-|(?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))|(?:(?:[0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)(?:[eE][+-]?[0-9]+)?)/;
-export const TODO_PATTERN = /[Tt][Oo][Dd][Oo]/;
-export const DONE_PATTERN = /[Dd][Oo][Nn][Ee]/;
-export const URL_PATTERN = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
-export const PIN_PATTERN = /\*[0-9]{0,3}/;
-export const DATETIME_PATTERN = /(?:\d{4})-?(?:1[0-2]|0[1-9])-?(?:3[01]|0[1-9]|[12][0-9])(?:(?:[\sT])?(?:2[0-3]p|[01][0-9]):?(?:[0-5][0-9]):?(?:[0-5][0-9])?(?:\.[0-9]+)?Z?)?/
-export const PATH_PATTERN = new RegExp('((?:(?:/"(?:[^"\\n]|\.)*?")|(?:/(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18})))+/?');
-export const TAG_PATTERN = /#(?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))/;
-export const BANG_PATTERN = /!(?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))/;
-export const MINUS_PATTERN = /[\-](?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))(?::(?:[0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)(?:[eE][+-]?[0-9]+)?)?/;
-export const PLUS_PATTERN = /[\+](?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))(?::(?:[0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)(?:[eE][+-]?[0-9]+)?)?/;
+const WS_PATTERN = /\s+/m;
+const SYMBOL_PATTERN = /\S+/;
+const OPERATOR_PATTERN = /\+|\-|\*|\/|%|sum|min|max|round|floor|ceil|pow|cos|sin|tan|[Bb][Ee][Aa][Nn][\+\-]?|\$/;
+const ARG_PATTERN = /-|(?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))|(?:(?:[0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)(?:[eE][+-]?[0-9]+)?)/;
+const TODO_PATTERN = /[Tt][Oo][Dd][Oo]/;
+const DONE_PATTERN = /[Dd][Oo][Nn][Ee]/;
+const URL_PATTERN = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
+const PIN_PATTERN = /\*[0-9]{0,3}/;
+const DATETIME_PATTERN = /(?:\d{4})-?(?:1[0-2]|0[1-9])-?(?:3[01]|0[1-9]|[12][0-9])(?:(?:[\sT])?(?:2[0-3]p|[01][0-9]):?(?:[0-5][0-9]):?(?:[0-5][0-9])?(?:\.[0-9]+)?Z?)?/
+
+const PATH_PATTERN = new RegExp('((?:(?:/"(?:[^"\\n]|\.)*?")|(?:/(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18})))+/?');
+export const AUTO_COMPLETE_PATH_PATTERN = new RegExp('((?:(?:/"(?:[^"\\n]|\.)*?")|(?:/(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18})))?/?');
+
+const BANG_PATTERN /******************/ = /!(?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))/;
+export const AUTO_COMPLETE_BANG_PATTERN = /!(?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))?/;
+
+const TAG_PATTERN /******************/ = /#(?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))/;
+export const AUTO_COMPLETE_TAG_PATTERN = /#(?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))?/;
+
+const PLUS_PATTERN /******************/ = /[\+](?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))(?::(?:[0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)(?:[eE][+-]?[0-9]+)?)?/;
+export const AUTO_COMPLETE_PLUS_PATTERN = /[\+](?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))?(?::(?:[0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)(?:[eE][+-]?[0-9]+)?)?/;
+                     
+const MINUS_PATTERN /******************/ = /[\-](?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))(?::(?:[0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)(?:[eE][+-]?[0-9]+)?)?/;
+export const AUTO_COMPLETE_MINUS_PATTERN = /[\-](?:(?:"(?:[^"\\]*(?:\\.[^"\\]*)*?)")|(?:(?:[\u1000-\uffff]|[a-zA-Z]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F])(?:[\u1000-\uffff]|[a-zA-Z0-9\-_]|[\$\xA2-\xA5\u058F\u060B\u09F2\u09F3\u09FB\u0AF1\u0BF9\u0E3F]){0,18}))?(?::(?:[0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)(?:[eE][+-]?[0-9]+)?)?/;
 
 export const states =  {
   start: [

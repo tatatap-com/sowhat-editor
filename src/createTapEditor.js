@@ -1,18 +1,26 @@
+import { syntaxTree } from "@codemirror/language";
+import { simpleMode } from "@codemirror/legacy-modes/mode/simple-mode";
 import { EditorState } from '@codemirror/state';
-import { EditorView, ViewPlugin, drawSelection, keymap } from '@codemirror/view';
+import { defaultKeymap } from '@codemirror/commands';
+import { StreamLanguage } from "@codemirror/stream-parser";
+import { bracketMatching } from '@codemirror/matchbrackets';
+import { history, historyKeymap } from '@codemirror/history';
 import { HighlightStyle, Tag, tags } from '@codemirror/highlight';
 import { autocompletion, completionKeymap } from '@codemirror/autocomplete';
-import { defaultKeymap } from '@codemirror/commands';
-import { history, historyKeymap } from '@codemirror/history';
-import { bracketMatching } from '@codemirror/matchbrackets';
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets';
-import { syntaxTree } from "@codemirror/language";
-import { StreamLanguage } from "@codemirror/stream-parser";
-import { simpleMode } from "@codemirror/legacy-modes/mode/simple-mode";
-import { states, PATH_PATTERN, TAG_PATTERN, BANG_PATTERN, MINUS_PATTERN, PLUS_PATTERN } from './soWhatMode';
+import { EditorView, ViewPlugin, drawSelection, keymap } from '@codemirror/view';
+
+import {
+  states,
+  AUTO_COMPLETE_PATH_PATTERN,
+  AUTO_COMPLETE_BANG_PATTERN,
+  AUTO_COMPLETE_TAG_PATTERN,
+  AUTO_COMPLETE_PLUS_PATTERN,
+  AUTO_COMPLETE_MINUS_PATTERN,
+} from './soWhatMode';
 
 // SO... we need to tell codemirror about all these tags
-// since they do not map to the defaults
+// since our tags do not map to the defaults provided
 // @see https://discuss.codemirror.net/t/codemirror-6-stream-syntax-with-custom-tags/2578/6
 Object.values(states).forEach((state) => {
   if (Array.isArray(state)) {
@@ -25,6 +33,8 @@ Object.values(states).forEach((state) => {
 });
 
 export default ({ initialValue, root, folders, tagnames, events, beans }) => {
+  const completions = [];
+
   if (folders) {
     const folderPrompts = [];
     function addFolders(f, parent = '') {
@@ -34,68 +44,40 @@ export default ({ initialValue, root, folders, tagnames, events, beans }) => {
     }
     folders.forEach(f => addFolders(f));
     folders = folderPrompts;
+    completions.push(['path', /^\//, AUTO_COMPLETE_PATH_PATTERN, folderPrompts]);
   }
 
-  if (events) events = events.map(({ value }) => ({ label: `!${value}` }));
-  if (tagnames) tagnames = tagnames.map(({ value }) => ({ label: `#${value}` }));
+  if (events) {
+    completions.push(['bang', /\W\!|^\!/, AUTO_COMPLETE_BANG_PATTERN, events.map(i => ({ label: `!${i.value}` }))]);
+  }
 
+  if (tagnames) {
+    completions.push(['tagname', /\W\#|^\#/, AUTO_COMPLETE_TAG_PATTERN, tagnames.map(i => ({ label: `#${i.value}` }))]);
+  }
 
-  let minus;
-  let plus;
   if (beans) {
-    minus = beans.map(({ value }) => ({ label: `-${value}` }));
-    plus = beans.map(({ value }) => ({ label: `+${value}` }));
+    completions.push(['plus', /\W\+|^\+/, AUTO_COMPLETE_PLUS_PATTERN, beans.map(i => ({ label: `+${i.value}` }))]);
+    completions.push(['minus', /\W\-|^\-/, AUTO_COMPLETE_MINUS_PATTERN, beans.map(i => ({ label: `-${i.value}` }))]);
   }
 
-
-  function myCompletions(context) {  
+  function suggestTokens(context) {  
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1);
-  
-    if (folders && nodeBefore.name === 'path') {
-      return {
-        from: nodeBefore.from,
-        to: nodeBefore.to,
-        span: PATH_PATTERN,
-        options: folders,
-      }
-    }
 
-    if (tagnames && nodeBefore.name === 'tagname') {
-      return {
-        from: nodeBefore.from,
-        to: nodeBefore.to,
-        span: TAG_PATTERN,
-        options: tagnames,
+    for (let i = 0; i < completions.length; i++) {
+      const [targetNode, maybePattern, matchPattern, options] = completions[i];
+      if (
+        (nodeBefore.name === 'word' && context.matchBefore(maybePattern)) ||
+        (nodeBefore.name === targetNode)
+      ) {
+        const word = context.matchBefore(matchPattern);
+        return {
+          from: nodeBefore.name === targetNode ? nodeBefore.from : word.from,
+          to: nodeBefore.name === targetNode ? nodeBefore.to : word.to,
+          span: matchPattern,
+          options,
+        }
       }
     }
-
-    if (events && nodeBefore.name === 'bang') {
-      return {
-        from: nodeBefore.from,
-        to: nodeBefore.to,
-        span: BANG_PATTERN,
-        options: events,
-      }
-    }
-
-    if (minus && nodeBefore.name === 'minus') {
-      return {
-        from: nodeBefore.from,
-        to: nodeBefore.to,
-        span: MINUS_PATTERN,
-        options: minus,
-      }
-    }
-
-    if (plus && nodeBefore.name === 'plus') {
-      return {
-        from: nodeBefore.from,
-        to: nodeBefore.to,
-        span: PLUS_PATTERN,
-        options: plus,
-      }
-    }
-  
     return null;
   }
 
@@ -104,7 +86,7 @@ export default ({ initialValue, root, folders, tagnames, events, beans }) => {
     display: 'inline-block',
     padding: '0 3px 0',
     fontWeight: '700',
-  }  
+  };
 
   return new EditorView({
     parent: root,
@@ -166,7 +148,7 @@ export default ({ initialValue, root, folders, tagnames, events, beans }) => {
         drawSelection(),
         bracketMatching(),
         closeBrackets(),
-        autocompletion({ override: [myCompletions] }),
+        autocompletion({ override: [suggestTokens] }),
         keymap.of([
             ...closeBracketsKeymap,
             ...defaultKeymap,
