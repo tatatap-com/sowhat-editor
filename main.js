@@ -45,9 +45,12 @@ function create(tag, attr = {}, children = []) {
   return elm;
 };
 
-makeFolders({
+addSuggestion('folder', makeFolders({
   foo: true,
-}).forEach(f => addSuggestion('folder', f));
+  bar: {
+    baz: true,
+  }
+}));
 
 //////////////////////
 // RUN THE EXAMPLES //
