@@ -16,8 +16,8 @@ html {
 }
 
 #preview.panel  {
-  border-left: 1px solid #ccc;
-  background: #fff;
+  background: #000004;
+  color: rgb(215, 229, 247);
 }
 
 .panel-title {

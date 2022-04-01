@@ -1,15 +1,13 @@
 import './reset.css';
 import './main.css';
 import sowhat from '@tatatap-com/sowhat';
-import createTapEditor from "./lib/index";
+import createTapEditor, { addSuggestion } from "./lib/index";
 
 ////////////////////////
 // CONFIGURE EXAMPLES //
 ////////////////////////
 
-const examples = [
-  '*123 2022-04-01 /foo/bar this $$ummm)'
-];
+const examples = Array.from(new Array(4)).map(_ => '*123 2022-04-01 /foo/bar this $$ummm)');
 
 ///////////////
 // UTILITIES //
@@ -47,6 +45,10 @@ function create(tag, attr = {}, children = []) {
   return elm;
 };
 
+makeFolders({
+  foo: true,
+}).forEach(f => addSuggestion('folder', f));
+
 //////////////////////
 // RUN THE EXAMPLES //
 //////////////////////
@@ -60,7 +62,9 @@ const addNote = (initialValue) => {
   createTapEditor({
     root: editor,
     initialValue,
-    onChange: (v) => { output.innerText = JSON.stringify(sowhat.parse(v), null, 2) },
+    onChange: (v) => {
+      output.innerText = JSON.stringify(sowhat.parse(v), null, 2)
+    },
   })
 
   exampleRoot.appendChild(create('div', { class: 'ex-wrap'}, [
