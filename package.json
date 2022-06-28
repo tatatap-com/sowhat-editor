@@ -2,9 +2,9 @@
   "name": "@tatatap-com/sowhat-editor",
   "license": "MIT",
   "type": "module",
-  "main": "dist/sowhat-editor.umd.js",
+  "main": "lib/index.js",
   "private": false,
-  "version": "2.0.1",
+  "version": "2.1.0",
   "scripts": {
     "dev": "vite",
     "build:umd": "vite build",
