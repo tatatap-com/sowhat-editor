@@ -4,7 +4,7 @@
   "type": "module",
   "main": "lib/index.js",
   "private": false,
-  "version": "2.1.0",
+  "version": "2.1.1",
   "scripts": {
     "dev": "vite",
     "build:umd": "vite build",
