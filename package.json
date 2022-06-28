@@ -2,7 +2,7 @@
   "name": "@tatatap-com/sowhat-editor",
   "license": "MIT",
   "type": "module",
-  "main": "lib/index.js",
+  "main": "dist/sowhat-editor.umd.js",
   "private": true,
   "version": "2.0.0",
   "scripts": {

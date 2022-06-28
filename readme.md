@@ -14,26 +14,26 @@ import { createEditor, suggest } from '@tatatap-com/sowhat-editor';
 
 suggest('folder', [
   {
-    value: 'foo',
+    raw: 'foo',
     children: [
-      { value: 'bar' }
+      { raw: 'bar' }
     ]
   }
 ]);
 
 suggest('bean', [
-  { value: 'income' },
-  { value: 'expense' },
+  { raw: 'income' },
+  { raw: 'expense' },
 ]);
 
 suggest('event', [
-  { value: 'takeout' },
-  { value: 'headache' },
+  { raw: 'takeout' },
+  { raw: 'headache' },
 ]);
 
 suggest('tag', [
-  { value: 'inspiration' },
-  { value: '"want it"' },
+  { raw: 'inspiration' },
+  { raw: '"want it"' },
 ]);
 
 // You can create an editor in a dom element like so...
