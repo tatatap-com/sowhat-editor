@@ -202,6 +202,9 @@ const addNote = (initialValue) => {
     onFocus: () => {
       updateSuggestions();
     },
+    opts: {
+      placeholderText: 'Write it down...'
+    }
   });
 
   note.root = create('div', { class: 'ex-wrap'}, [
