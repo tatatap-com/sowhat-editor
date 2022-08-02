@@ -15,6 +15,8 @@ export default defineConfig(({ command, mode }) => {
       }
     }
   } else {
-    return {};
+    return {
+      base: '/sowhat-editor/',
+    };
   }
 });
