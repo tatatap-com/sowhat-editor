@@ -8,7 +8,7 @@ import { createEditor, suggest } from "./lib/index";
 ////////////////////////
 
 const examples = [
-  '!takeout Chick-fil-a -food:10.95',
+  '!takeout burgers -food:10.95',
   '/budget +income:200',
   '/budget -income:100',
   'http://skiano.com #art #inspiration'
@@ -21,7 +21,7 @@ const examples = [
 const notesRoot = document.getElementById('notes');
 const previewRoot = document.getElementById('preview');
 const SPACE_PATTERN = /\s/;
-const makeOption = v => ({ name: v, value: SPACE_PATTERN.test(v) ? `"${v}"` : v });
+const makeOption = v => ({ display: v, raw: SPACE_PATTERN.test(v) ? `"${v}"` : v });
 const makeOptions = names => names.map(makeOption);
 const makeFolders = (folderMap) => {
   return Object.entries(folderMap).map(([k, v]) => {
