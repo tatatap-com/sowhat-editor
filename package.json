@@ -4,7 +4,7 @@
   "type": "module",
   "main": "lib/index.js",
   "private": false,
-  "version": "2.1.8",
+  "version": "2.2.0",
   "scripts": {
     "dev": "vite",
     "build:umd": "vite build",
@@ -13,7 +13,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@tatatap-com/sowhat": "^1.4.1",
+    "@tatatap-com/sowhat": "^2.1.3",
     "rollup": "^2.70.1",
     "vite": "^2.9.0"
   },

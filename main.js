@@ -1,6 +1,6 @@
 import './reset.css';
 import './main.css';
-import sowhat from '@tatatap-com/sowhat';
+import {parse} from '@tatatap-com/sowhat';
 import { createEditor, suggest } from "./lib/index";
 
 ////////////////////////
@@ -8,6 +8,7 @@ import { createEditor, suggest } from "./lib/index";
 ////////////////////////
 
 const examples = [
+  '://("okokok" "okokok") #foo',
   '!takeout burgers -food:10.95',
   '/budget +income:200',
   '/budget -income:100',
@@ -195,7 +196,7 @@ const addNote = (initialValue) => {
     root: editor,
     initialValue,
     onChange: (v) => {
-      note.parsed =  sowhat.parse(v);
+      note.parsed =  parse(v);
       console.log(note.parsed);
       updatePreview();
     },
